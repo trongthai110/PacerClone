@@ -1,0 +1,50 @@
+PODS:
+  - Charts (4.1.0):
+    - Charts/Core (= 4.1.0)
+  - Charts/Core (4.1.0):
+    - SwiftAlgorithms (~> 1.0)
+  - Realm (10.38.0):
+    - Realm/Headers (= 10.38.0)
+  - Realm/Headers (10.38.0)
+  - RealmSwift (10.38.0):
+    - Realm (= 10.38.0)
+  - RxCocoa (6.5.0):
+    - RxRelay (= 6.5.0)
+    - RxSwift (= 6.5.0)
+  - RxRelay (6.5.0):
+    - RxSwift (= 6.5.0)
+  - RxSwift (6.5.0)
+  - SnapKit (5.6.0)
+  - SwiftAlgorithms (1.0.0)
+
+DEPENDENCIES:
+  - Charts
+  - RealmSwift
+  - RxCocoa
+  - RxSwift
+  - SnapKit
+
+SPEC REPOS:
+  trunk:
+    - Charts
+    - Realm
+    - RealmSwift
+    - RxCocoa
+    - RxRelay
+    - RxSwift
+    - SnapKit
+    - SwiftAlgorithms
+
+SPEC CHECKSUMS:
+  Charts: 354f86803d11d9c35de280587fef50d1af063978
+  Realm: 5902885dd1d5e71b0b020830caab937ecdf5bf07
+  RealmSwift: 0fc037d6c32c7c4fc9362892380f380114ecdcf0
+  RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
+  RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
+  RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
+  SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+  SwiftAlgorithms: 38dda4731d19027fdeee1125f973111bf3386b53
+
+PODFILE CHECKSUM: 3d293860892fa4b99b5bc1e1ec87fb5f60b5aa83
+
+COCOAPODS: 1.11.3
