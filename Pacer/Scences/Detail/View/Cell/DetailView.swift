@@ -46,10 +46,6 @@ class DetailView: UIView {
         lblSteps.font = .systemFont(ofSize: 25)
         lblDistance.font = .systemFont(ofSize: 25)
         lblAvg.font = .systemFont(ofSize: 20)
-//        lblAvg.layer.masksToBounds = true
-//        lblAvg.layer.cornerRadius = 10
-//        lblAvg.layer.borderWidth = 1
-//        lblAvg.layer.borderColor = UIColor.gray.cgColor
 
         self.addSubview(background)
         background.addSubview(datePicker)
