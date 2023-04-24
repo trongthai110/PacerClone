@@ -54,7 +54,7 @@ class HomeChartView: UIView, ChartViewDelegate {
         lblStepsCounting.text = "0"
         lblStepsCounting.textAlignment = .center
         lblStepsCounting.textColor = UIColor(rgb: 0x3290DE)
-        lblStepsCounting.font = .systemFont(ofSize: 80)
+        lblStepsCounting.font = .systemFont(ofSize: 75)
         
         lblStepsGoal.text = "Step Goal: 6000"
         lblStepsGoal.textAlignment = .center

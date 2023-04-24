@@ -31,7 +31,7 @@ extension DetailViewModel {
         
         for day in days {
             guard let stepData = realm.objects(Step.self).filter("date == %@", day).first else {
-                continue // không tìm thấy đối tượng Health cho ngày này thì bỏ qua
+                continue // không tìm thấy đối tượng Step cho ngày này thì bỏ qua
             }
             totalSteps += stepData.step
         }
@@ -44,7 +44,7 @@ extension DetailViewModel {
         
         for day in days {
             guard let stepData = realm.objects(Step.self).filter("date == %@", day).first else {
-                continue // không tìm thấy đối tượng Health cho ngày này thì bỏ qua
+                continue // không tìm thấy đối tượng Step cho ngày này thì bỏ qua
             }
             totalDate += 1
         }

@@ -77,14 +77,16 @@ extension Double {
         let date = Date(timeIntervalSince1970: timeStamp)
         let calendar = Calendar.current
         let hour = calendar.component(.hour, from: date)
-        return hour
+        return hour == 0 ? 24 : hour
     }
 
     
     // MARK: - ================================= Rounded =================================
-    func rounded(places: Int) -> Double {
-        let divisor = pow(10.0, Double(places))
-        return (self * divisor).rounded() / divisor
+
+    func roundedString(decimalPlaces: Int) -> String {
+        let divisor = pow(10.0, Double(decimalPlaces))
+        let roundedNumber = (self * divisor).rounded() / divisor
+        return String(format: "%.\(decimalPlaces)f", roundedNumber)
     }
 }
 

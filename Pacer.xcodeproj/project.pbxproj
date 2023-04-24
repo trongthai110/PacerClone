@@ -148,7 +148,7 @@
 		DA9F795D29DD042D00E32441 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				DA9F797B29DD478D00E32441 /* Cell */,
+				DA9F797B29DD478D00E32441 /* SubView */,
 				DA9F796129DD089300E32441 /* HomeViewController.swift */,
 			);
 			path = View;
@@ -163,14 +163,14 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		DA9F797B29DD478D00E32441 /* Cell */ = {
+		DA9F797B29DD478D00E32441 /* SubView */ = {
 			isa = PBXGroup;
 			children = (
 				DA9F797C29DD47B700E32441 /* HomeDetailView.swift */,
 				DADD1B7829DE866E00113F69 /* HomeChartView.swift */,
 				DADD1B9C29DECC7600113F69 /* HomeChartDetailView.swift */,
 			);
-			path = Cell;
+			path = SubView;
 			sourceTree = "<group>";
 		};
 		DAA30EBF29DFAA44004718F5 /* HomeChartViewModel */ = {
@@ -213,7 +213,7 @@
 		DAD1934929E53E4A009206CC /* View */ = {
 			isa = PBXGroup;
 			children = (
-				DAD1935429E54384009206CC /* Cell */,
+				DAD1935429E54384009206CC /* SubView */,
 				DAD1934E29E53E76009206CC /* DetailViewController.swift */,
 			);
 			path = View;
@@ -235,12 +235,12 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		DAD1935429E54384009206CC /* Cell */ = {
+		DAD1935429E54384009206CC /* SubView */ = {
 			isa = PBXGroup;
 			children = (
 				DAD1935529E543A6009206CC /* DetailView.swift */,
 			);
-			path = Cell;
+			path = SubView;
 			sourceTree = "<group>";
 		};
 		DADD1B6A29DE650B00113F69 /* Library */ = {

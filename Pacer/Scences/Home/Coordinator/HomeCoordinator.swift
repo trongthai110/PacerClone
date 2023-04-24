@@ -41,7 +41,7 @@ class HomeCoordinator: BaseCoordinator<Void> {
         presentingViewController.present(detailViewController, animated: true, completion: nil)
         
         viewModel.selectedDate.subscribe(onNext: { [weak self] data in
-            let delayTime = DispatchTime.now() + 0.5
+            let delayTime = DispatchTime.now() + 0.4
             DispatchQueue.main.asyncAfter(deadline: delayTime) {
                 detailViewController.dismiss(animated: true, completion: nil)
                 self?.date = data

@@ -12,7 +12,6 @@ import RxSwift
 import Charts
 import RxCocoa
 import Darwin
-import RealmSwift
 
 class HomeViewController: UIViewController {
     
@@ -91,7 +90,7 @@ extension HomeViewController {
         }
         
         chartView.snp.makeConstraints { make in
-            make.height.equalTo(300)
+            make.height.equalTo(350)
             make.width.equalToSuperview()
             make.top.equalTo(homeView.snp.bottom).offset(0)
             make.left.equalTo(contentView.snp.left).offset(0)
@@ -104,7 +103,7 @@ extension HomeViewController {
             make.top.equalTo(chartView.snp.bottom).offset(0)
             make.left.equalTo(contentView.snp.left).offset(0)
             make.right.equalTo(contentView.snp.right).offset(0)
-            make.bottom.equalTo(contentView.snp.bottom).offset(-100)
+            make.bottom.equalTo(contentView.snp.bottom).offset(-30)
         }
     }
     
@@ -161,14 +160,14 @@ extension HomeViewController {
         if steps > stepGoal {
             stepsPercent = 100
         } else {
-            stepsPercent = Double(steps/stepGoal) * 100
+            stepsPercent = Double(steps)/Double(stepGoal) * 100
         }
         
         homeView.lblValueCalories.text = calories.thousandsSeparator()
         homeView.lblValueActiveTime.text = time.asString(style: .abbreviated)
-        homeView.lblValueDistance.text = Int(distance / 1000).thousandsSeparator()
+        homeView.lblValueDistance.text = (distance / 1000).roundedString(decimalPlaces: 1)
         chartView.lblDay.text = "".timeStampToDay(timeStamp: 0.getTimeStamp(), type: 2)
         chartView.lblStepsCounting.text = steps.thousandsSeparator()
-        chartView.lblStepsPercent.text = Int(stepsPercent).thousandsSeparator() + "% Completed"
+        chartView.lblStepsPercent.text = stepsPercent.roundedString(decimalPlaces: 0) + "% Completed"
     }
 }

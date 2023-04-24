@@ -111,14 +111,15 @@ extension DetailViewController {
     }
     
     func displayLabel() {
+        // Chưa xử lý bắt sự kiện lướt ngang trong DatePicker
         let month = detailView.datePicker.calendar.component(.month, from: detailView.datePicker.date)
-        let days = 0.getTimestampsOfMonth(month: month)
+        let days: [Int] = 0.getTimestampsOfMonth(month: month)
         let monthlySteps: Int = viewModel.monthlySteps(for: days)
-        let monthlyDistance = ((1.8 * 0.414) * Double(monthlySteps))
+        let monthlyDistance: Double = ((1.8 * 0.414) * Double(monthlySteps))
         let monthlyAvg: Int = viewModel.monthlyStepsAvg(for: days)
         
         detailView.lblSteps.text = monthlySteps.thousandsSeparator() + " steps"
-        detailView.lblDistance.text = String(round(monthlyDistance / 1000)) + " km"
+        detailView.lblDistance.text = (monthlyDistance/1000).roundedString(decimalPlaces: 1) + " km"
         detailView.lblAvg.text = "Avg. " + (monthlySteps/monthlyAvg).thousandsSeparator()
     }
 }
