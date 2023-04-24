@@ -24,9 +24,9 @@ class HomeViewModel {
     let hours: Int = Int(Date().timeIntervalSince1970.hoursInDay())
     private let stepsCounting = CMPedometer()
     
-    var stepGoal: Double = 6000
-    var space = Double()
-    var stepsPercent = Double()
+    let stepGoal: Double = 6000
+    var space: Double = 0
+    var stepsPercent: Double = 0
     
     let title = BehaviorSubject<String>(value: "Home")
     
@@ -39,9 +39,9 @@ class HomeViewModel {
         
         // MARK: - ================================= Home Chart View Data =================================
         
-        let steps = Double(dailySteps(for: day))
+        let steps = Double(dailySteps(day)!)
         
-        if steps > 6000 {
+        if steps > stepGoal {
             stepsPercent = 75
         } else {
             stepsPercent = (((steps/stepGoal) * 100) / 100) * 75
@@ -60,7 +60,7 @@ class HomeViewModel {
         self.entriesValue.onNext(data)
 
         // MARK: - ================================= Total Step Data =================================
-        totalStepsValue.onNext(dailySteps(for: day))
+        totalStepsValue.onNext(dailySteps(day)!)
         
         // MARK: - ================================= Step Count Data =================================
         
@@ -72,8 +72,7 @@ class HomeViewModel {
                     if day == 0.getTimeStamp() {
                         self.stepsValue.onNext(pedometerData.numberOfSteps.intValue)
                     } else {
-                        self.stepsValue.onNext(0)
-                        self.chartViewModel.handleOfflineData(steps: pedometerData.numberOfSteps.intValue, day: 0.getTimeStamp(), hours: self.hours)
+                        self.chartViewModel.handleOfflineData(0.getTimeStamp(), newSteps: pedometerData.numberOfSteps.intValue, hours: Date().hourTimestamp())
                         print("Day in the past")
                         print("New step for today: ", pedometerData.numberOfSteps.intValue)
                     }
@@ -84,12 +83,11 @@ class HomeViewModel {
 }
 
 extension HomeViewModel {
-    func dailySteps(for day: Double) -> Int {
-        let realm = try! Realm()
-        guard let healthData = realm.objects(Health.self).filter("day == %@", day).first else {
-            // không tìm thấy đối tượng Health cho ngày này thì trả về 0
+    func dailySteps(_ date: Double) -> Int? {
+        if let stepObject = realm.objects(Step.self).filter("date == \(date)").first {
+            return stepObject.step
+        } else {
             return 0
         }
-        return healthData.hours.sum(ofProperty: "steps")
     }
 }

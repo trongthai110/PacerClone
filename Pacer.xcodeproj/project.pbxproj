@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA029BA829F638D000245714 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = DA029BA729F638D000245714 /* .gitignore */; };
 		DA9F3C0129DC24F8003D4977 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9F3C0029DC24F8003D4977 /* AppDelegate.swift */; };
 		DA9F3C0A29DC24F9003D4977 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA9F3C0929DC24F9003D4977 /* Assets.xcassets */; };
 		DA9F3C0D29DC24F9003D4977 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA9F3C0B29DC24F9003D4977 /* LaunchScreen.storyboard */; };
@@ -32,6 +33,7 @@
 /* Begin PBXFileReference section */
 		2072D07039EF8DA04A8C5529 /* Pods-Pacer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pacer.release.xcconfig"; path = "Target Support Files/Pods-Pacer/Pods-Pacer.release.xcconfig"; sourceTree = "<group>"; };
 		72E447A385E4710C705BFEC7 /* Pods-Pacer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pacer.debug.xcconfig"; path = "Target Support Files/Pods-Pacer/Pods-Pacer.debug.xcconfig"; sourceTree = "<group>"; };
+		DA029BA729F638D000245714 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		DA9F3BFD29DC24F8003D4977 /* Pacer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pacer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA9F3C0029DC24F8003D4977 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DA9F3C0929DC24F9003D4977 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 		DA9F3BF429DC24F8003D4977 = {
 			isa = PBXGroup;
 			children = (
+				DA029BA729F638D000245714 /* .gitignore */,
 				DA9F3BFF29DC24F8003D4977 /* Pacer */,
 				DA9F3BFE29DC24F8003D4977 /* Products */,
 				E011C14F94699AA2E33B5D32 /* Pods */,
@@ -335,6 +338,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA9F3C0D29DC24F9003D4977 /* LaunchScreen.storyboard in Resources */,
+				DA029BA829F638D000245714 /* .gitignore in Resources */,
 				DA9F3C0A29DC24F9003D4977 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

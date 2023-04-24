@@ -73,6 +73,14 @@ extension Double {
         return hours
     }
     
+    func getHour(from timeStamp: Double) -> Int {
+        let date = Date(timeIntervalSince1970: timeStamp)
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: date)
+        return hour
+    }
+
+    
     // MARK: - ================================= Rounded =================================
     func rounded(places: Int) -> Double {
         let divisor = pow(10.0, Double(places))
@@ -110,6 +118,13 @@ extension Date {
         let components = calendar.dateComponents([.year, .month, .day], from: self)
         guard let date = calendar.date(from: components) else { return 0 }
         return date.timeIntervalSince1970
+    }
+    
+    // MARK: - ================================= Get Hour TimeStamp =================================
+    func hourTimestamp() -> Double {
+        let timeInterval = self.timeIntervalSince1970
+        let hourTimeInterval = timeInterval - (timeInterval.truncatingRemainder(dividingBy: 3600))
+        return hourTimeInterval
     }
 }
 

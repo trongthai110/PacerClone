@@ -30,10 +30,10 @@ extension DetailViewModel {
         var totalSteps = 0
         
         for day in days {
-            guard let healthData = realm.objects(Health.self).filter("day == %@", day).first else {
+            guard let stepData = realm.objects(Step.self).filter("date == %@", day).first else {
                 continue // không tìm thấy đối tượng Health cho ngày này thì bỏ qua
             }
-            totalSteps += healthData.hours.sum(ofProperty: "steps")
+            totalSteps += stepData.step
         }
         return totalSteps
     }
@@ -43,7 +43,7 @@ extension DetailViewModel {
         var totalDate = 0
         
         for day in days {
-            guard let healthData = realm.objects(Health.self).filter("day == %@", day).first else {
+            guard let stepData = realm.objects(Step.self).filter("date == %@", day).first else {
                 continue // không tìm thấy đối tượng Health cho ngày này thì bỏ qua
             }
             totalDate += 1
@@ -57,10 +57,10 @@ extension DetailViewModel {
     
     func getAllTimestamp() -> [Double] {
         let realm = try! Realm()
-        let healthObjects = realm.objects(Health.self)
+        let healthObjects = realm.objects(Step.self)
         var days = [Double]()
         for healthObject in healthObjects {
-            days.append(healthObject.day)
+            days.append(healthObject.date)
         }
         return days
     }

@@ -12,6 +12,7 @@ import RxSwift
 import Charts
 import RxCocoa
 import Darwin
+import RealmSwift
 
 class HomeViewController: UIViewController {
     
@@ -30,12 +31,15 @@ class HomeViewController: UIViewController {
     let screensize: CGRect = UIScreen.main.bounds
     let hours: Int = Int(Date().timeIntervalSince1970.hoursInDay())
     
-    var steps = Int()
-    var totalSteps = Int()
-    var distance = Double()
-    var time = Double()
-    var calories = Int()
-    var stepsPercent = Double()
+    var steps: Int = 0
+    var totalSteps: Int = 0
+    var distance: Double = 0
+    var time: Double = 0
+    var calories: Int = 0
+    var stepsPercent: Double = 0
+    let stride: Double = 1.8 * 0.414 // = height * 0.414
+    let speed: Double = 1.34
+    let stepGoal: Int = 6000
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -50,6 +54,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         initializeUI()
         initializeSubscribers()
+        
     }
 }
 
@@ -105,6 +110,7 @@ extension HomeViewController {
     
     func initializeSubscribers() {
         
+        chartViewModel.handleOfflineData(0.getTimeStamp(), newSteps: 0, hours: Date().hourTimestamp())
         
         // MARK: - ================================= PushView =================================
         chartView.centerView.addGestureRecognizer(tapGestureRecognizer)
@@ -123,7 +129,7 @@ extension HomeViewController {
         viewModel.stepsValue
                     .subscribe(onNext: { [weak self] data in
                         self?.displayLabel(stepsValue: data)
-                        self?.chartViewModel.handleOfflineData(steps: data, day: 0.getTimeStamp(), hours: self!.hours)
+                        self?.chartViewModel.handleOfflineData(0.getTimeStamp(), newSteps: data, hours: Date().hourTimestamp())
                     })
                     .disposed(by: disposeBag)
         
@@ -149,20 +155,20 @@ extension HomeViewController {
     
     func displayLabel(stepsValue: Int) {
         steps = stepsValue + totalSteps
-        distance = (1.8 * 0.414) * Double(steps)
-        time = distance/1.34
+        distance = stride * Double(steps)
+        time = distance/speed
         calories = Int(time * 3.5 * 3.5 * 70 / (200 * 60))
-        if steps > 6000 {
+        if steps > stepGoal {
             stepsPercent = 100
         } else {
-            stepsPercent = (Double(steps) / 6000) * 100
+            stepsPercent = Double(steps/stepGoal) * 100
         }
         
-        homeView.lblValueCalories.text = String(calories)
+        homeView.lblValueCalories.text = calories.thousandsSeparator()
         homeView.lblValueActiveTime.text = time.asString(style: .abbreviated)
-        homeView.lblValueDistance.text = String(round(distance / 1000))
+        homeView.lblValueDistance.text = Int(distance / 1000).thousandsSeparator()
         chartView.lblDay.text = "".timeStampToDay(timeStamp: 0.getTimeStamp(), type: 2)
-        chartView.lblStepsCounting.text = String(steps)
-        chartView.lblStepsPercent.text = String(Int(stepsPercent)) + "% Completed"
+        chartView.lblStepsCounting.text = steps.thousandsSeparator()
+        chartView.lblStepsPercent.text = Int(stepsPercent).thousandsSeparator() + "% Completed"
     }
 }

@@ -14,52 +14,71 @@ import RealmSwift
 class ChartViewModel {
     
     let realm = try! Realm()
-    
     private let disposeBag = DisposeBag()
     
     let entriesValue = PublishSubject<BarChartData>()
     
-    var distance = Double()
-    var time = Double()
-    var calories = Double()
-    
-    private let activityTracking = CMMotionActivityManager()
-    private let stepsCounting = CMPedometer()
-    
-    func handleOfflineData(steps: Int, day: Double, hours: Int) {
-        let realm = try! Realm()
-        if let health = realm.objects(Health.self).filter("day == \(day)").first {
-            if let hourlyHealth = health.hours.first(where: { $0.hour == hours }) {
-                updateData(currentDay: day, newStep: steps, newHours: hours)
-            } else {
-                //Tạo mới một đối tượng HourlyHealth và thêm đối tượng này vào mảng hours của Health
-                let hourlyHealth = HourlyHealth(hour: hours, steps: steps)
+    func handleOfflineData(_ date: Double, newSteps: Int, hours: Double) {
+        if let stepObject = realm.objects(Step.self).filter("date == \(date)").first {
+            
+            if let stepDetailObject = stepObject.steps.filter("date == \(hours)").first {
+                // Cập nhật biến date
                 try! realm.write {
-                    health.hours.append(hourlyHealth)
+                    stepDetailObject.step += newSteps
+                    stepObject.step += newSteps
+                }
+            } else {
+                // Tạo mới một đối tượng StepDetail
+                let stepDetailObject = StepDetail()
+                stepDetailObject.date = hours
+                stepDetailObject.step = newSteps
+                
+                try! realm.write {
+                    stepObject.steps.append(stepDetailObject)
+                    stepObject.step += newSteps
                 }
             }
+
         } else {
-            let hourlyHealths = [
-                HourlyHealth(hour: hours, steps: steps)
-            ]
-            saveData(day: day, hourlyHealths: hourlyHealths)
+            
+            print("trường hợp 2")
+            // Tạo mới 1 đối tượng Step
+            let stepObject = Step()
+            stepObject.date = date
+            stepObject.step = newSteps
+            
+            // Tạo mới 1 đối tượng StepDetail
+            let stepDetailObject = StepDetail()
+            stepDetailObject.date = hours
+            stepDetailObject.step = newSteps
+            
+            try! realm.write {
+                stepObject.steps.append(stepDetailObject)
+                realm.add(stepObject)
+            }
         }
     }
 
     func getDataChart(day: Double) {
-        
-        let list = realm.objects(Health.self).filter("day = %@ ", day).toArray(ofType: Health.self)
+        let list = realm.objects(Step.self).filter("date = \(day)").toArray(ofType: Step.self)
         print(list)
 
         var dataEntries: [BarChartDataEntry] = []
-
-        for i in 1..<25 {
-            let hour = list.last?.hours.first(where: {$0.hour == i})
-            let steps = hour?.steps ?? 0
-            let dataEntry = BarChartDataEntry(x: Double(i), y: Double(steps))
-            dataEntries.append(dataEntry)
-        }
         
+        for hour in 0...24 {
+            
+            if let stepArray = list.first?.steps {
+                var count: Int = 0
+                for i in stepArray {
+                    count += 1
+                    let yValue = 0.getHour(from: i.date) == hour ? i.step : 0
+                    let dataEntry = BarChartDataEntry(x: Double(hour), y: Double(yValue))
+                    dataEntries.append(dataEntry)
+                }
+            }
+        }
+
+
         let dataset = BarChartDataSet(entries: dataEntries, label: "Steps Chart")
         dataset.colors = [UIColor(rgb: 0x3290DE)]
 
@@ -75,31 +94,68 @@ class ChartViewModel {
 
 extension ChartViewModel {
     
-    func saveData(day: Double, hourlyHealths: [HourlyHealth]) {
-        let data = Health(day: day)
-        for hourlyHealth in hourlyHealths {
-            data.hours.append(hourlyHealth)
-        }
-        try! realm.write {
-            realm.add(data)
-        }
-    }
-
-    func deleteData(day: Double) {
-        let data = realm.objects(Health.self).filter("day = %@ ", day)
-            try! realm.write {
-                realm.delete(data)
+    func addStep(step: Step) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                realm.add(step)
             }
+        } catch let error as NSError {
+            print("Lỗi khi thêm đối tượng Step:", error)
+        }
     }
     
-    func updateData(currentDay: Double, newStep: Int, newHours: Int) {
-        let data = realm.objects(Health.self).filter("day = %@ ", currentDay).toArray(ofType: Health.self).first
-        if let data = data {
-            if let hourData = data.hours.first(where: { $0.hour == newHours }) {
-                try! realm.write {
-                    hourData.steps = hourData.steps + newStep
-                }
+    func addStepDetail(stepDetail: StepDetail) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                realm.add(stepDetail)
             }
+        } catch let error as NSError {
+            print("Lỗi khi thêm đối tượng StepDetail:", error)
+        }
+    }
+    
+    func updateStep(step: Step) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                realm.add(step, update: .modified)
+            }
+        } catch let error as NSError {
+            print("Lỗi khi cập nhật đối tượng Step:", error)
+        }
+    }
+    
+    func updateStepDetail(stepDetail: StepDetail) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                realm.add(stepDetail, update: .modified)
+            }
+        } catch let error as NSError {
+            print("Lỗi khi cập nhật đối tượng StepDetail:", error)
+        }
+    }
+    
+    func deleteStep(step: Step) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                realm.delete(step)
+            }
+        } catch let error as NSError {
+            print("Lỗi khi xóa đối tượng Step:", error)
+        }
+    }
+    func deleteStepDetail(stepDetail: StepDetail) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                realm.delete(stepDetail)
+            }
+        } catch let error as NSError {
+            print("Lỗi khi xóa đối tượng StepDetail:", error)
         }
     }
 }
